@@ -5,7 +5,8 @@ import { ThemeToggleButton } from "./theme-toggle";
 import { googleAvatarFrom } from "../lib/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "../lib/i18n";
-import logoAsset from "@/assets/logo.png.asset.json";
+
+const LOGO_URL = "/logo.png";
 
 function useAvatar() {
   const [avatar, setAvatar] = useState<string | null>(null);
@@ -57,7 +58,7 @@ export function AppShell({
       <header className="hidden md:flex sticky top-0 z-40 w-full bg-surface border-b border-outline-variant">
         <div className="flex items-center justify-between px-margin-desktop py-sm w-full max-w-[1280px] mx-auto">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logoAsset.url} alt="PersonFinc Logo" className="w-10 h-10 object-contain" />
+            <img src={LOGO_URL} alt="PersonFinc Logo" className="w-10 h-10 object-contain" />
             <span className="font-headline-md text-headline-md font-bold text-primary">
               PersonFinc
             </span>
@@ -99,7 +100,7 @@ export function AppShell({
       <header className="md:hidden sticky top-0 z-40 bg-surface border-b border-outline-variant safe-top">
         <div className="flex items-center justify-between px-margin-mobile py-sm">
           <div className="flex items-center gap-2">
-            <img src={logoAsset.url} alt="PersonFinc Logo" className="w-8 h-8 object-contain" />
+            <img src={LOGO_URL} alt="PersonFinc Logo" className="w-8 h-8 object-contain" />
             <span className="font-headline-md text-headline-md font-bold text-primary">
               {title ?? "PersonFinc"}
             </span>
@@ -171,7 +172,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 bg-surface z-40">
         <div className="flex items-center justify-between px-margin-mobile h-14 max-w-[1280px] mx-auto w-full">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logoAsset.url} alt="PersonFinc Logo" className="w-8 h-8 object-contain" />
+            <img src={LOGO_URL} alt="PersonFinc Logo" className="w-8 h-8 object-contain" />
             <span className="font-headline-md text-headline-md font-bold text-primary">
               PersonFinc
             </span>

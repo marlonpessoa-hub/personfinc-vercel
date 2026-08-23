@@ -5,7 +5,8 @@ import { AuthShell } from "../components/app-shell";
 import { PasswordInput } from "../components/password-input";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
-import logoAsset from "@/assets/logo.png.asset.json";
+
+const LOGO_URL = "/logo.png";
 
 import { isNativeApp, listenNativeAuthRedirect, signInWithGoogleNative } from "../lib/native-auth";
 
@@ -90,7 +91,7 @@ function Login() {
     <AuthShell>
       <div className="bg-surface-container-lowest rounded-xl shadow-2xl border border-outline-variant overflow-hidden">
         <div className="flex flex-col items-center p-md border-b border-outline-variant gap-sm">
-          <img src={logoAsset.url} alt="PersonFinc Logo" className="w-48 h-48 object-contain" />
+          <img src={LOGO_URL} alt="PersonFinc Logo" className="w-48 h-48 object-contain" />
           <h1 className="w-full text-center font-bold font-headline-md text-headline-md text-primary">
             {tab === "login" ? "Bem-vindo de volta" : "Crie sua conta"}
           </h1>
