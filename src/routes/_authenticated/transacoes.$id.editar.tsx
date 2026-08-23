@@ -21,6 +21,7 @@ function EditarLancamento() {
   const { allTransactions, updateTransaction, removeTransaction, categories, cards } = useStore();
   const tx = allTransactions.find((t) => t.id === id);
   const [kind, setKind] = useState<TxKind>(tx && tx.amount >= 0 ? "receita" : "despesa");
+  const isParcel = Boolean(tx?.purchaseId);
 
   if (!tx) {
     return (
@@ -30,6 +31,9 @@ function EditarLancamento() {
     );
   }
 
+  const parcelSuffix =
+    tx.installmentNo && tx.installments ? ` (${tx.installmentNo}/${tx.installments})` : "";
+
   return (
     <TransactionForm
       title="Editar Lançamento"
@@ -37,6 +41,12 @@ function EditarLancamento() {
       onKindChange={setKind}
       categories={categories.filter((c) => c.kind === kind)}
       cards={cards}
+      notice={
+        isParcel
+          ? `Esta é a parcela${parcelSuffix} de uma compra no cartão — as demais parcelas não são alteradas. Para editar a compra inteira, use a página Cartões.`
+          : undefined
+      }
+      cardLocked={isParcel}
       initial={{
         description: tx.description,
         amount: Math.abs(tx.amount),
@@ -62,7 +72,12 @@ function EditarLancamento() {
           note: data.note,
           paid: kind === "despesa" ? data.paid : false,
           paidAt: kind === "despesa" && data.paid ? (tx.paidAt ?? undefined) : undefined,
-          cardId: kind === "despesa" ? data.cardId : undefined,
+          cardId:
+            kind === "despesa"
+              ? isParcel
+                ? tx.cardId
+                : data.cardId
+              : undefined,
           payer: kind === "despesa" ? data.payer : undefined,
         });
         toast.success("Lançamento atualizado");

@@ -54,6 +54,11 @@ type Ctx = {
   }) => Promise<number>;
   /** Remove todas as parcelas de uma compra */
   removeCardPurchase: (purchaseId: string) => Promise<void>;
+  /** Edita descrição, categoria, responsável e cartão de todas as parcelas de uma compra */
+  updateCardPurchase: (
+    purchaseId: string,
+    data: { description: string; categoryId: string; payer?: string; cardId: string },
+  ) => Promise<void>;
   addTransaction: (t: Omit<Transaction, "id">) => Promise<void>;
   addTransactions: (list: Omit<Transaction, "id">[]) => Promise<number>;
   updateTransaction: (id: string, t: Omit<Transaction, "id">) => Promise<void>;
@@ -335,7 +340,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         const purchaseId =
           typeof crypto !== "undefined" && "randomUUID" in crypto
             ? crypto.randomUUID()
-            : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+            : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+                const r = (Math.random() * 16) | 0;
+                return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+              });
         const cents = Math.round(total * 100);
         const base = Math.floor(cents / n);
         const rest = cents - base * n;
@@ -369,6 +377,29 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           .from("transactions")
           .delete()
           .eq("purchase_id", purchaseId);
+        if (error) fail(error);
+        await refresh();
+      },
+      updateCardPurchase: async (purchaseId, data) => {
+        guard();
+        const items = transactions.filter((t) => t.purchaseId === purchaseId);
+        if (items.length === 0) throw new Error("Compra não encontrada.");
+        const results = await Promise.all(
+          items.map((t) => {
+            const suffix =
+              t.installmentNo && t.installments ? ` (${t.installmentNo}/${t.installments})` : "";
+            return supabase
+              .from("transactions")
+              .update({
+                description: `${data.description.trim()}${suffix}`,
+                category_id: data.categoryId || null,
+                payer: data.payer?.trim() || null,
+                card_id: data.cardId,
+              })
+              .eq("id", t.id);
+          }),
+        );
+        const error = results.find((r) => r.error)?.error;
         if (error) fail(error);
         await refresh();
       },

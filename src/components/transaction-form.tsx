@@ -20,6 +20,8 @@ export function TransactionForm({
   categories,
   cards = [],
   initial,
+  notice,
+  cardLocked = false,
   onSubmit,
   onCancel,
   onDelete,
@@ -30,6 +32,8 @@ export function TransactionForm({
   categories: Category[];
   cards?: PaymentCard[];
   initial?: Initial;
+  notice?: string;
+  cardLocked?: boolean;
   onSubmit: (data: Initial) => void;
   onCancel: () => void;
   onDelete?: () => void;
@@ -50,7 +54,7 @@ export function TransactionForm({
           e.preventDefault();
           onSubmit({
             description,
-            amount: parseFloat(amount || "0"),
+            amount: parseFloat(amount.replace(",", ".") || "0"),
             categoryId,
             date,
             note,
@@ -64,6 +68,15 @@ export function TransactionForm({
         <h1 className="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary">
           {title}
         </h1>
+
+        {notice && (
+          <div className="flex items-start gap-sm rounded-lg border border-outline-variant bg-surface-container-low px-md py-sm">
+            <span className="material-symbols-outlined !text-[18px] text-on-surface-variant">
+              info
+            </span>
+            <p className="font-body-sm text-body-sm text-on-surface-variant">{notice}</p>
+          </div>
+        )}
 
         {/* Kind toggle */}
         <div className="inline-flex bg-surface-container rounded-full p-1">
@@ -100,11 +113,10 @@ export function TransactionForm({
           <Field label="Valor (R$)">
             <input
               required
-              type="number"
-              step="0.01"
-              min="0"
+              type="text"
+              inputMode="decimal"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => setAmount(e.target.value.replace(/[^\d.,]/g, ""))}
               placeholder="0,00"
               className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary font-numeric-data text-numeric-data"
             />
@@ -138,7 +150,9 @@ export function TransactionForm({
               <select
                 value={cardId}
                 onChange={(e) => setCardId(e.target.value)}
-                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
+                disabled={cardLocked}
+                title={cardLocked ? "O cartão da parcela é definido na compra" : undefined}
+                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary disabled:opacity-60"
               >
                 <option value="">Sem cartão / dinheiro</option>
                 {cards.map((c) => (

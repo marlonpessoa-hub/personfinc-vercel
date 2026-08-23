@@ -274,7 +274,7 @@ export function ExpenseImportDialog({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        <div className="p-md space-y-md overflow-y-auto">
+        <div className="p-md space-y-md overflow-y-auto flex-1 min-h-0">
           <div className="flex flex-col sm:flex-row sm:items-center gap-sm">
             <span className="font-label-md text-label-md text-on-surface-variant uppercase">
               Mês de destino

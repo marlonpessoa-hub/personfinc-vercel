@@ -76,12 +76,14 @@ function Login() {
       return;
     }
     try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
-        extraParams: { prompt: "select_account" },
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: { prompt: "select_account" },
+        },
       });
-      if (result.error) throw result.error;
-      if (result.redirected) return;
+      if (error) throw error;
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Não foi possível entrar com o Google");
     }

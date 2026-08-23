@@ -1,30 +1,51 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useStore } from "../lib/store";
 import { formatBRL } from "../lib/format";
 import { formatMonthLabel, monthKeyOf, shiftMonth } from "../lib/month";
+import type { CardPurchase } from "../lib/mock-data";
+import { createPortal } from "react-dom";
 
 export function CardPurchaseDialog({
   cardId: initialCardId,
+  purchase,
   onClose,
 }: {
   cardId?: string;
+  purchase?: CardPurchase;
   onClose: () => void;
 }) {
-  const { cards, categories, addCardPurchase } = useStore();
+  const { cards, categories, addCardPurchase, updateCardPurchase } = useStore();
   const expenseCats = categories.filter((c) => c.kind === "despesa");
+  const [mounted, setMounted] = useState(false);
 
-  const [cardId, setCardId] = useState(initialCardId ?? cards[0]?.id ?? "");
-  const [description, setDescription] = useState("");
-  const [total, setTotal] = useState("");
-  const [installments, setInstallments] = useState("1");
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
-  const [payer, setPayer] = useState("");
-  const [categoryId, setCategoryId] = useState(expenseCats[0]?.id ?? "");
+  useEffect(() => {
+    setMounted(true);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  const [cardId, setCardId] = useState(
+    purchase?.cardId ?? initialCardId ?? cards[0]?.id ?? "",
+  );
+  const [description, setDescription] = useState(purchase?.description ?? "");
+  const [total, setTotal] = useState(purchase ? String(purchase.total) : "");
+  const [installments, setInstallments] = useState(
+    purchase ? String(purchase.installments) : "1",
+  );
+  const [date, setDate] = useState(
+    purchase?.date ?? new Date().toISOString().slice(0, 10),
+  );
+  const [payer, setPayer] = useState(purchase?.payer ?? "");
+  const [categoryId, setCategoryId] = useState(
+    purchase?.categoryId || expenseCats[0]?.id || "",
+  );
   const [saving, setSaving] = useState(false);
 
   const n = Math.max(1, Math.round(Number(installments) || 1));
-  const value = Math.abs(Number(total) || 0);
+  const value = Math.abs(Number(total.replace(',', '.')) || 0);
 
   const preview = useMemo(() => {
     if (!value) return [];
@@ -39,6 +60,8 @@ export function CardPurchaseDialog({
     }));
   }, [value, n, date]);
 
+  if (!mounted) return null;
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!cardId) {
@@ -51,40 +74,55 @@ export function CardPurchaseDialog({
     }
     setSaving(true);
     try {
-      const count = await addCardPurchase({
-        cardId,
-        description,
-        total: value,
-        installments: n,
-        date,
-        payer: payer.trim() || undefined,
-        categoryId,
-      });
-      toast.success(
-        count > 1 ? `${count} parcelas lançadas` : "Compra lançada",
-      );
+      if (purchase) {
+        await updateCardPurchase(purchase.purchaseId, {
+          description: description.trim(),
+          categoryId,
+          payer: payer.trim() || undefined,
+          cardId,
+        });
+        toast.success("Compra atualizada");
+      } else {
+        const count = await addCardPurchase({
+          cardId,
+          description,
+          total: value,
+          installments: n,
+          date,
+          payer: payer.trim() || undefined,
+          categoryId,
+        });
+        toast.success(
+          count > 1 ? `${count} parcelas lançadas` : "Compra lançada",
+        );
+      }
       onClose();
     } catch {
-      // erro já sinalizado
     } finally {
       setSaving(false);
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center p-0 md:p-lg">
+  const dialogContent = (
+    <div
+      className="fixed inset-0 z-[100] bg-black/50 flex items-end md:items-center justify-center p-0 md:p-lg"
+      onClick={onClose}
+    >
       <form
         onSubmit={submit}
-        className="bg-surface-container-lowest w-full md:max-w-lg rounded-t-2xl md:rounded-2xl border border-outline-variant max-h-[92vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+        className="bg-surface-container-lowest rounded-t-2xl md:rounded-2xl border border-outline-variant max-h-[90vh] flex flex-col overflow-hidden"
       >
-        <div className="flex items-center justify-between p-md border-b border-outline-variant sticky top-0 bg-surface-container-lowest">
-          <h2 className="font-title-lg text-title-lg text-on-surface">Nova compra no cartão</h2>
+        <div className="flex items-center justify-between p-md border-b border-outline-variant shrink-0 bg-surface-container-lowest">
+          <h2 className="font-title-lg text-title-lg text-on-surface">
+            {purchase ? "Editar compra no cartão" : "Nova compra no cartão"}
+          </h2>
           <button type="button" onClick={onClose} aria-label="Fechar" className="p-2 rounded-full hover:bg-surface-container">
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
 
-        <div className="p-md space-y-md">
+        <div className="p-md space-y-md overflow-y-auto flex-1 min-h-0">
           <Field label="Cartão">
             <select
               value={cardId}
@@ -114,13 +152,13 @@ export function CardPurchaseDialog({
             <Field label="Valor total (R$)">
               <input
                 required
-                type="number"
-                step="0.01"
-                min="0"
+                type="text"
+                inputMode="decimal"
                 value={total}
-                onChange={(e) => setTotal(e.target.value)}
+                onChange={(e) => setTotal(e.target.value.replace(/[^\d.,]/g, ""))}
+                disabled={!!purchase}
                 placeholder="0,00"
-                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
+                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary disabled:opacity-60"
               />
             </Field>
             <Field label="Parcelas">
@@ -130,10 +168,17 @@ export function CardPurchaseDialog({
                 max="48"
                 value={installments}
                 onChange={(e) => setInstallments(e.target.value)}
-                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
+                disabled={!!purchase}
+                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary disabled:opacity-60"
               />
             </Field>
           </div>
+
+          {purchase && (
+            <p className="font-body-sm text-body-sm text-on-surface-variant -mt-sm">
+              Valor, parcelas e data não podem ser alterados. Se precisar, exclua a compra e lance novamente.
+            </p>
+          )}
 
           <div className="grid grid-cols-2 gap-md">
             <Field label="Data da compra">
@@ -141,7 +186,8 @@ export function CardPurchaseDialog({
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
+                disabled={!!purchase}
+                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary disabled:opacity-60"
               />
             </Field>
             <Field label="Responsável">
@@ -168,7 +214,7 @@ export function CardPurchaseDialog({
             </select>
           </Field>
 
-          {preview.length > 0 && (
+          {preview.length > 0 && !purchase && (
             <div className="rounded-lg border border-outline-variant p-md space-y-xs">
               <p className="font-label-md text-label-md text-on-surface-variant uppercase">
                 Parcelas geradas
@@ -190,7 +236,7 @@ export function CardPurchaseDialog({
           )}
         </div>
 
-        <div className="p-md border-t border-outline-variant flex justify-end gap-sm sticky bottom-0 bg-surface-container-lowest">
+        <div className="p-md border-t border-outline-variant flex justify-end gap-sm shrink-0 bg-surface-container-lowest">
           <button
             type="button"
             onClick={onClose}
@@ -203,12 +249,14 @@ export function CardPurchaseDialog({
             disabled={saving}
             className="px-6 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md disabled:opacity-60"
           >
-            {saving ? "Salvando…" : "Lançar compra"}
+            {saving ? "Salvando…" : purchase ? "Salvar alterações" : "Lançar compra"}
           </button>
         </div>
       </form>
     </div>
   );
+
+  return createPortal(dialogContent, document.body);
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
