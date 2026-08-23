@@ -3,11 +3,6 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nitro",
-  "functions": {
-    "output/server/index.mjs": {
-      "maxDuration": 30
-    }
-  },
   "rewrites": [
     {
       "source": "/_nitro/(.*)",
