@@ -9,57 +9,41 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SenhaAlteradaRouteImport } from './routes/senha-alterada'
-import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
-import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as DefinirSenhaRouteImport } from './routes/definir-senha'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as DefinirSenhaRouteImport } from './routes/definir-senha'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
+import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
+import { Route as SenhaAlteradaRouteImport } from './routes/senha-alterada'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
-import { Route as AuthenticatedTransacoesRouteImport } from './routes/_authenticated/transacoes'
-import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
-import { Route as AuthenticatedMetasRouteImport } from './routes/_authenticated/metas'
-import { Route as AuthenticatedImportarRouteImport } from './routes/_authenticated/importar'
-import { Route as AuthenticatedFixasRouteImport } from './routes/_authenticated/fixas'
-import { Route as AuthenticatedConexoesRouteImport } from './routes/_authenticated/conexoes'
-import { Route as AuthenticatedCategoriasRouteImport } from './routes/_authenticated/categorias'
-import { Route as AuthenticatedCartoesRouteImport } from './routes/_authenticated/cartoes'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedTransacoesIndexRouteImport } from './routes/_authenticated/transacoes.index'
-import { Route as AuthenticatedMetasIndexRouteImport } from './routes/_authenticated/metas.index'
-import { Route as AuthenticatedFixasIndexRouteImport } from './routes/_authenticated/fixas.index'
-import { Route as AuthenticatedCategoriasIndexRouteImport } from './routes/_authenticated/categorias.index'
+import { Route as AuthenticatedCartoesRouteImport } from './routes/_authenticated/cartoes'
+import { Route as AuthenticatedCategoriasRouteImport } from './routes/_authenticated/categorias'
+import { Route as AuthenticatedConexoesRouteImport } from './routes/_authenticated/conexoes'
+import { Route as AuthenticatedFixasRouteImport } from './routes/_authenticated/fixas'
+import { Route as AuthenticatedImportarRouteImport } from './routes/_authenticated/importar'
+import { Route as AuthenticatedMetasRouteImport } from './routes/_authenticated/metas'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedTransacoesRouteImport } from './routes/_authenticated/transacoes'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedCartoesIndexRouteImport } from './routes/_authenticated/cartoes.index'
-import { Route as AuthenticatedTransacoesNovoRouteImport } from './routes/_authenticated/transacoes.novo'
-import { Route as AuthenticatedMetasNovaRouteImport } from './routes/_authenticated/metas.nova'
-import { Route as AuthenticatedFixasNovaRouteImport } from './routes/_authenticated/fixas.nova'
-import { Route as AuthenticatedCategoriasNovaRouteImport } from './routes/_authenticated/categorias.nova'
 import { Route as AuthenticatedCartoesNovoRouteImport } from './routes/_authenticated/cartoes.novo'
-import { Route as AuthenticatedTransacoesIdEditarRouteImport } from './routes/_authenticated/transacoes.$id.editar'
-import { Route as AuthenticatedMetasIdEditarRouteImport } from './routes/_authenticated/metas.$id.editar'
-import { Route as AuthenticatedFixasIdEditarRouteImport } from './routes/_authenticated/fixas.$id.editar'
-import { Route as AuthenticatedCategoriasIdEditarRouteImport } from './routes/_authenticated/categorias.$id.editar'
+import { Route as AuthenticatedCategoriasIndexRouteImport } from './routes/_authenticated/categorias.index'
+import { Route as AuthenticatedCategoriasNovaRouteImport } from './routes/_authenticated/categorias.nova'
+import { Route as AuthenticatedFixasIndexRouteImport } from './routes/_authenticated/fixas.index'
+import { Route as AuthenticatedFixasNovaRouteImport } from './routes/_authenticated/fixas.nova'
+import { Route as AuthenticatedMetasIndexRouteImport } from './routes/_authenticated/metas.index'
+import { Route as AuthenticatedMetasNovaRouteImport } from './routes/_authenticated/metas.nova'
+import { Route as AuthenticatedTransacoesIndexRouteImport } from './routes/_authenticated/transacoes.index'
+import { Route as AuthenticatedTransacoesNovoRouteImport } from './routes/_authenticated/transacoes.novo'
 import { Route as AuthenticatedCartoesIdEditarRouteImport } from './routes/_authenticated/cartoes.$id.editar'
+import { Route as AuthenticatedCategoriasIdEditarRouteImport } from './routes/_authenticated/categorias.$id.editar'
+import { Route as AuthenticatedFixasIdEditarRouteImport } from './routes/_authenticated/fixas.$id.editar'
+import { Route as AuthenticatedMetasIdEditarRouteImport } from './routes/_authenticated/metas.$id.editar'
+import { Route as AuthenticatedTransacoesIdEditarRouteImport } from './routes/_authenticated/transacoes.$id.editar'
 
-const SenhaAlteradaRoute = SenhaAlteradaRouteImport.update({
-  id: '/senha-alterada',
-  path: '/senha-alterada',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RedefinirSenhaRoute = RedefinirSenhaRouteImport.update({
-  id: '/redefinir-senha',
-  path: '/redefinir-senha',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
-  id: '/recuperar-senha',
-  path: '/recuperar-senha',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DefinirSenhaRoute = DefinirSenhaRouteImport.update({
@@ -67,8 +51,24 @@ const DefinirSenhaRoute = DefinirSenhaRouteImport.update({
   path: '/definir-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
+  id: '/recuperar-senha',
+  path: '/recuperar-senha',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RedefinirSenhaRoute = RedefinirSenhaRouteImport.update({
+  id: '/redefinir-senha',
+  path: '/redefinir-senha',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SenhaAlteradaRoute = SenhaAlteradaRouteImport.update({
+  id: '/senha-alterada',
+  path: '/senha-alterada',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
@@ -76,44 +76,9 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthCallbackRoute = AuthCallbackRouteImport.update({
-  id: '/auth/callback',
-  path: '/auth/callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedTransacoesRoute = AuthenticatedTransacoesRouteImport.update({
-  id: '/transacoes',
-  path: '/transacoes',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedMetasRoute = AuthenticatedMetasRouteImport.update({
-  id: '/metas',
-  path: '/metas',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedImportarRoute = AuthenticatedImportarRouteImport.update({
-  id: '/importar',
-  path: '/importar',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFixasRoute = AuthenticatedFixasRouteImport.update({
-  id: '/fixas',
-  path: '/fixas',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedConexoesRoute = AuthenticatedConexoesRouteImport.update({
-  id: '/conexoes',
-  path: '/conexoes',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCategoriasRoute = AuthenticatedCategoriasRouteImport.update({
-  id: '/categorias',
-  path: '/categorias',
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCartoesRoute = AuthenticatedCartoesRouteImport.update({
@@ -121,60 +86,51 @@ const AuthenticatedCartoesRoute = AuthenticatedCartoesRouteImport.update({
   path: '/cartoes',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const AuthenticatedCategoriasRoute = AuthenticatedCategoriasRouteImport.update({
+  id: '/categorias',
+  path: '/categorias',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedTransacoesIndexRoute =
-  AuthenticatedTransacoesIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedTransacoesRoute,
-  } as any)
-const AuthenticatedMetasIndexRoute = AuthenticatedMetasIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedMetasRoute,
+const AuthenticatedConexoesRoute = AuthenticatedConexoesRouteImport.update({
+  id: '/conexoes',
+  path: '/conexoes',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedFixasIndexRoute = AuthenticatedFixasIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedFixasRoute,
+const AuthenticatedFixasRoute = AuthenticatedFixasRouteImport.update({
+  id: '/fixas',
+  path: '/fixas',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedCategoriasIndexRoute =
-  AuthenticatedCategoriasIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedCategoriasRoute,
-  } as any)
+const AuthenticatedImportarRoute = AuthenticatedImportarRouteImport.update({
+  id: '/importar',
+  path: '/importar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMetasRoute = AuthenticatedMetasRouteImport.update({
+  id: '/metas',
+  path: '/metas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTransacoesRoute = AuthenticatedTransacoesRouteImport.update({
+  id: '/transacoes',
+  path: '/transacoes',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedCartoesIndexRoute =
   AuthenticatedCartoesIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedCartoesRoute,
-  } as any)
-const AuthenticatedTransacoesNovoRoute =
-  AuthenticatedTransacoesNovoRouteImport.update({
-    id: '/novo',
-    path: '/novo',
-    getParentRoute: () => AuthenticatedTransacoesRoute,
-  } as any)
-const AuthenticatedMetasNovaRoute = AuthenticatedMetasNovaRouteImport.update({
-  id: '/nova',
-  path: '/nova',
-  getParentRoute: () => AuthenticatedMetasRoute,
-} as any)
-const AuthenticatedFixasNovaRoute = AuthenticatedFixasNovaRouteImport.update({
-  id: '/nova',
-  path: '/nova',
-  getParentRoute: () => AuthenticatedFixasRoute,
-} as any)
-const AuthenticatedCategoriasNovaRoute =
-  AuthenticatedCategoriasNovaRouteImport.update({
-    id: '/nova',
-    path: '/nova',
-    getParentRoute: () => AuthenticatedCategoriasRoute,
   } as any)
 const AuthenticatedCartoesNovoRoute =
   AuthenticatedCartoesNovoRouteImport.update({
@@ -182,23 +138,55 @@ const AuthenticatedCartoesNovoRoute =
     path: '/novo',
     getParentRoute: () => AuthenticatedCartoesRoute,
   } as any)
-const AuthenticatedTransacoesIdEditarRoute =
-  AuthenticatedTransacoesIdEditarRouteImport.update({
-    id: '/$id/editar',
-    path: '/$id/editar',
+const AuthenticatedCategoriasIndexRoute =
+  AuthenticatedCategoriasIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedCategoriasRoute,
+  } as any)
+const AuthenticatedCategoriasNovaRoute =
+  AuthenticatedCategoriasNovaRouteImport.update({
+    id: '/nova',
+    path: '/nova',
+    getParentRoute: () => AuthenticatedCategoriasRoute,
+  } as any)
+const AuthenticatedFixasIndexRoute = AuthenticatedFixasIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedFixasRoute,
+} as any)
+const AuthenticatedFixasNovaRoute = AuthenticatedFixasNovaRouteImport.update({
+  id: '/nova',
+  path: '/nova',
+  getParentRoute: () => AuthenticatedFixasRoute,
+} as any)
+const AuthenticatedMetasIndexRoute = AuthenticatedMetasIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedMetasRoute,
+} as any)
+const AuthenticatedMetasNovaRoute = AuthenticatedMetasNovaRouteImport.update({
+  id: '/nova',
+  path: '/nova',
+  getParentRoute: () => AuthenticatedMetasRoute,
+} as any)
+const AuthenticatedTransacoesIndexRoute =
+  AuthenticatedTransacoesIndexRouteImport.update({
+    id: '/',
+    path: '/',
     getParentRoute: () => AuthenticatedTransacoesRoute,
   } as any)
-const AuthenticatedMetasIdEditarRoute =
-  AuthenticatedMetasIdEditarRouteImport.update({
-    id: '/$id/editar',
-    path: '/$id/editar',
-    getParentRoute: () => AuthenticatedMetasRoute,
+const AuthenticatedTransacoesNovoRoute =
+  AuthenticatedTransacoesNovoRouteImport.update({
+    id: '/novo',
+    path: '/novo',
+    getParentRoute: () => AuthenticatedTransacoesRoute,
   } as any)
-const AuthenticatedFixasIdEditarRoute =
-  AuthenticatedFixasIdEditarRouteImport.update({
+const AuthenticatedCartoesIdEditarRoute =
+  AuthenticatedCartoesIdEditarRouteImport.update({
     id: '/$id/editar',
     path: '/$id/editar',
-    getParentRoute: () => AuthenticatedFixasRoute,
+    getParentRoute: () => AuthenticatedCartoesRoute,
   } as any)
 const AuthenticatedCategoriasIdEditarRoute =
   AuthenticatedCategoriasIdEditarRouteImport.update({
@@ -206,11 +194,23 @@ const AuthenticatedCategoriasIdEditarRoute =
     path: '/$id/editar',
     getParentRoute: () => AuthenticatedCategoriasRoute,
   } as any)
-const AuthenticatedCartoesIdEditarRoute =
-  AuthenticatedCartoesIdEditarRouteImport.update({
+const AuthenticatedFixasIdEditarRoute =
+  AuthenticatedFixasIdEditarRouteImport.update({
     id: '/$id/editar',
     path: '/$id/editar',
-    getParentRoute: () => AuthenticatedCartoesRoute,
+    getParentRoute: () => AuthenticatedFixasRoute,
+  } as any)
+const AuthenticatedMetasIdEditarRoute =
+  AuthenticatedMetasIdEditarRouteImport.update({
+    id: '/$id/editar',
+    path: '/$id/editar',
+    getParentRoute: () => AuthenticatedMetasRoute,
+  } as any)
+const AuthenticatedTransacoesIdEditarRoute =
+  AuthenticatedTransacoesIdEditarRouteImport.update({
+    id: '/$id/editar',
+    path: '/$id/editar',
+    getParentRoute: () => AuthenticatedTransacoesRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -419,32 +419,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/senha-alterada': {
-      id: '/senha-alterada'
-      path: '/senha-alterada'
-      fullPath: '/senha-alterada'
-      preLoaderRoute: typeof SenhaAlteradaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/redefinir-senha': {
-      id: '/redefinir-senha'
-      path: '/redefinir-senha'
-      fullPath: '/redefinir-senha'
-      preLoaderRoute: typeof RedefinirSenhaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recuperar-senha': {
-      id: '/recuperar-senha'
-      path: '/recuperar-senha'
-      fullPath: '/recuperar-senha'
-      preLoaderRoute: typeof RecuperarSenhaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/definir-senha': {
@@ -454,11 +433,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefinirSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recuperar-senha': {
+      id: '/recuperar-senha'
+      path: '/recuperar-senha'
+      fullPath: '/recuperar-senha'
+      preLoaderRoute: typeof RecuperarSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/redefinir-senha': {
+      id: '/redefinir-senha'
+      path: '/redefinir-senha'
+      fullPath: '/redefinir-senha'
+      preLoaderRoute: typeof RedefinirSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/senha-alterada': {
+      id: '/senha-alterada'
+      path: '/senha-alterada'
+      fullPath: '/senha-alterada'
+      preLoaderRoute: typeof SenhaAlteradaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/': {
@@ -468,60 +468,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/auth/callback': {
-      id: '/auth/callback'
-      path: '/auth/callback'
-      fullPath: '/auth/callback'
-      preLoaderRoute: typeof AuthCallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/transacoes': {
-      id: '/_authenticated/transacoes'
-      path: '/transacoes'
-      fullPath: '/transacoes'
-      preLoaderRoute: typeof AuthenticatedTransacoesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/perfil': {
-      id: '/_authenticated/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/metas': {
-      id: '/_authenticated/metas'
-      path: '/metas'
-      fullPath: '/metas'
-      preLoaderRoute: typeof AuthenticatedMetasRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/importar': {
-      id: '/_authenticated/importar'
-      path: '/importar'
-      fullPath: '/importar'
-      preLoaderRoute: typeof AuthenticatedImportarRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/fixas': {
-      id: '/_authenticated/fixas'
-      path: '/fixas'
-      fullPath: '/fixas'
-      preLoaderRoute: typeof AuthenticatedFixasRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/conexoes': {
-      id: '/_authenticated/conexoes'
-      path: '/conexoes'
-      fullPath: '/conexoes'
-      preLoaderRoute: typeof AuthenticatedConexoesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/categorias': {
-      id: '/_authenticated/categorias'
-      path: '/categorias'
-      fullPath: '/categorias'
-      preLoaderRoute: typeof AuthenticatedCategoriasRouteImport
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/cartoes': {
@@ -531,40 +482,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCartoesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+    '/_authenticated/categorias': {
+      id: '/_authenticated/categorias'
+      path: '/categorias'
+      fullPath: '/categorias'
+      preLoaderRoute: typeof AuthenticatedCategoriasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/transacoes/': {
-      id: '/_authenticated/transacoes/'
-      path: '/'
-      fullPath: '/transacoes/'
-      preLoaderRoute: typeof AuthenticatedTransacoesIndexRouteImport
-      parentRoute: typeof AuthenticatedTransacoesRoute
+    '/_authenticated/conexoes': {
+      id: '/_authenticated/conexoes'
+      path: '/conexoes'
+      fullPath: '/conexoes'
+      preLoaderRoute: typeof AuthenticatedConexoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/metas/': {
-      id: '/_authenticated/metas/'
-      path: '/'
-      fullPath: '/metas/'
-      preLoaderRoute: typeof AuthenticatedMetasIndexRouteImport
-      parentRoute: typeof AuthenticatedMetasRoute
+    '/_authenticated/fixas': {
+      id: '/_authenticated/fixas'
+      path: '/fixas'
+      fullPath: '/fixas'
+      preLoaderRoute: typeof AuthenticatedFixasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/fixas/': {
-      id: '/_authenticated/fixas/'
-      path: '/'
-      fullPath: '/fixas/'
-      preLoaderRoute: typeof AuthenticatedFixasIndexRouteImport
-      parentRoute: typeof AuthenticatedFixasRoute
+    '/_authenticated/importar': {
+      id: '/_authenticated/importar'
+      path: '/importar'
+      fullPath: '/importar'
+      preLoaderRoute: typeof AuthenticatedImportarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/categorias/': {
-      id: '/_authenticated/categorias/'
-      path: '/'
-      fullPath: '/categorias/'
-      preLoaderRoute: typeof AuthenticatedCategoriasIndexRouteImport
-      parentRoute: typeof AuthenticatedCategoriasRoute
+    '/_authenticated/metas': {
+      id: '/_authenticated/metas'
+      path: '/metas'
+      fullPath: '/metas'
+      preLoaderRoute: typeof AuthenticatedMetasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/transacoes': {
+      id: '/_authenticated/transacoes'
+      path: '/transacoes'
+      fullPath: '/transacoes'
+      preLoaderRoute: typeof AuthenticatedTransacoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/cartoes/': {
       id: '/_authenticated/cartoes/'
@@ -573,26 +545,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCartoesIndexRouteImport
       parentRoute: typeof AuthenticatedCartoesRoute
     }
-    '/_authenticated/transacoes/novo': {
-      id: '/_authenticated/transacoes/novo'
+    '/_authenticated/cartoes/novo': {
+      id: '/_authenticated/cartoes/novo'
       path: '/novo'
-      fullPath: '/transacoes/novo'
-      preLoaderRoute: typeof AuthenticatedTransacoesNovoRouteImport
-      parentRoute: typeof AuthenticatedTransacoesRoute
+      fullPath: '/cartoes/novo'
+      preLoaderRoute: typeof AuthenticatedCartoesNovoRouteImport
+      parentRoute: typeof AuthenticatedCartoesRoute
     }
-    '/_authenticated/metas/nova': {
-      id: '/_authenticated/metas/nova'
-      path: '/nova'
-      fullPath: '/metas/nova'
-      preLoaderRoute: typeof AuthenticatedMetasNovaRouteImport
-      parentRoute: typeof AuthenticatedMetasRoute
-    }
-    '/_authenticated/fixas/nova': {
-      id: '/_authenticated/fixas/nova'
-      path: '/nova'
-      fullPath: '/fixas/nova'
-      preLoaderRoute: typeof AuthenticatedFixasNovaRouteImport
-      parentRoute: typeof AuthenticatedFixasRoute
+    '/_authenticated/categorias/': {
+      id: '/_authenticated/categorias/'
+      path: '/'
+      fullPath: '/categorias/'
+      preLoaderRoute: typeof AuthenticatedCategoriasIndexRouteImport
+      parentRoute: typeof AuthenticatedCategoriasRoute
     }
     '/_authenticated/categorias/nova': {
       id: '/_authenticated/categorias/nova'
@@ -601,33 +566,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoriasNovaRouteImport
       parentRoute: typeof AuthenticatedCategoriasRoute
     }
-    '/_authenticated/cartoes/novo': {
-      id: '/_authenticated/cartoes/novo'
-      path: '/novo'
-      fullPath: '/cartoes/novo'
-      preLoaderRoute: typeof AuthenticatedCartoesNovoRouteImport
-      parentRoute: typeof AuthenticatedCartoesRoute
+    '/_authenticated/fixas/': {
+      id: '/_authenticated/fixas/'
+      path: '/'
+      fullPath: '/fixas/'
+      preLoaderRoute: typeof AuthenticatedFixasIndexRouteImport
+      parentRoute: typeof AuthenticatedFixasRoute
     }
-    '/_authenticated/transacoes/$id/editar': {
-      id: '/_authenticated/transacoes/$id/editar'
-      path: '/$id/editar'
-      fullPath: '/transacoes/$id/editar'
-      preLoaderRoute: typeof AuthenticatedTransacoesIdEditarRouteImport
-      parentRoute: typeof AuthenticatedTransacoesRoute
+    '/_authenticated/fixas/nova': {
+      id: '/_authenticated/fixas/nova'
+      path: '/nova'
+      fullPath: '/fixas/nova'
+      preLoaderRoute: typeof AuthenticatedFixasNovaRouteImport
+      parentRoute: typeof AuthenticatedFixasRoute
     }
-    '/_authenticated/metas/$id/editar': {
-      id: '/_authenticated/metas/$id/editar'
-      path: '/$id/editar'
-      fullPath: '/metas/$id/editar'
-      preLoaderRoute: typeof AuthenticatedMetasIdEditarRouteImport
+    '/_authenticated/metas/': {
+      id: '/_authenticated/metas/'
+      path: '/'
+      fullPath: '/metas/'
+      preLoaderRoute: typeof AuthenticatedMetasIndexRouteImport
       parentRoute: typeof AuthenticatedMetasRoute
     }
-    '/_authenticated/fixas/$id/editar': {
-      id: '/_authenticated/fixas/$id/editar'
+    '/_authenticated/metas/nova': {
+      id: '/_authenticated/metas/nova'
+      path: '/nova'
+      fullPath: '/metas/nova'
+      preLoaderRoute: typeof AuthenticatedMetasNovaRouteImport
+      parentRoute: typeof AuthenticatedMetasRoute
+    }
+    '/_authenticated/transacoes/': {
+      id: '/_authenticated/transacoes/'
+      path: '/'
+      fullPath: '/transacoes/'
+      preLoaderRoute: typeof AuthenticatedTransacoesIndexRouteImport
+      parentRoute: typeof AuthenticatedTransacoesRoute
+    }
+    '/_authenticated/transacoes/novo': {
+      id: '/_authenticated/transacoes/novo'
+      path: '/novo'
+      fullPath: '/transacoes/novo'
+      preLoaderRoute: typeof AuthenticatedTransacoesNovoRouteImport
+      parentRoute: typeof AuthenticatedTransacoesRoute
+    }
+    '/_authenticated/cartoes/$id/editar': {
+      id: '/_authenticated/cartoes/$id/editar'
       path: '/$id/editar'
-      fullPath: '/fixas/$id/editar'
-      preLoaderRoute: typeof AuthenticatedFixasIdEditarRouteImport
-      parentRoute: typeof AuthenticatedFixasRoute
+      fullPath: '/cartoes/$id/editar'
+      preLoaderRoute: typeof AuthenticatedCartoesIdEditarRouteImport
+      parentRoute: typeof AuthenticatedCartoesRoute
     }
     '/_authenticated/categorias/$id/editar': {
       id: '/_authenticated/categorias/$id/editar'
@@ -636,12 +622,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoriasIdEditarRouteImport
       parentRoute: typeof AuthenticatedCategoriasRoute
     }
-    '/_authenticated/cartoes/$id/editar': {
-      id: '/_authenticated/cartoes/$id/editar'
+    '/_authenticated/fixas/$id/editar': {
+      id: '/_authenticated/fixas/$id/editar'
       path: '/$id/editar'
-      fullPath: '/cartoes/$id/editar'
-      preLoaderRoute: typeof AuthenticatedCartoesIdEditarRouteImport
-      parentRoute: typeof AuthenticatedCartoesRoute
+      fullPath: '/fixas/$id/editar'
+      preLoaderRoute: typeof AuthenticatedFixasIdEditarRouteImport
+      parentRoute: typeof AuthenticatedFixasRoute
+    }
+    '/_authenticated/metas/$id/editar': {
+      id: '/_authenticated/metas/$id/editar'
+      path: '/$id/editar'
+      fullPath: '/metas/$id/editar'
+      preLoaderRoute: typeof AuthenticatedMetasIdEditarRouteImport
+      parentRoute: typeof AuthenticatedMetasRoute
+    }
+    '/_authenticated/transacoes/$id/editar': {
+      id: '/_authenticated/transacoes/$id/editar'
+      path: '/$id/editar'
+      fullPath: '/transacoes/$id/editar'
+      preLoaderRoute: typeof AuthenticatedTransacoesIdEditarRouteImport
+      parentRoute: typeof AuthenticatedTransacoesRoute
     }
   }
 }

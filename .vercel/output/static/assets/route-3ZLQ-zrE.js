@@ -1,0 +1,1 @@
+import{c as e}from"./useStore-BMZwfrlD.js";import{l as t}from"./index-COHfUMDQ.js";import{t as n}from"./store-BRVTD2cx.js";import{t as r}from"./reminder-settings-BBNyDguR.js";var i=e(),a=()=>(0,i.jsxs)(n,{children:[(0,i.jsx)(r,{}),(0,i.jsx)(t,{})]});export{a as component};

@@ -1,0 +1,1 @@
+var e=e=>e.toLocaleString(`pt-BR`,{style:`currency`,currency:`BRL`}),t=t=>`${t>0?`+`:t<0?`-`:``}${e(Math.abs(t))}`,n=e=>new Date(e).toLocaleDateString(`pt-BR`,{day:`2-digit`,month:`short`}).replace(`.`,``),r=e=>new Date(e).toLocaleDateString(`pt-BR`,{day:`2-digit`,month:`long`,year:`numeric`});export{t as i,r as n,n as r,e as t};
