@@ -33,10 +33,27 @@ function CardsList() {
   const { cards, cardPurchases, allTransactions, categoryById, removeCardPurchase } = useStore();
   const [purchaseCard, setPurchaseCard] = useState<string | null>(null);
   const [editingPurchase, setEditingPurchase] = useState<CardPurchase | null>(null);
+  const [selectedPayer, setSelectedPayer] = useState<string>("");
+
   const cardById = (id: string) => cards.find((c) => c.id === id);
   const limiteTotal = cards
     .filter((c) => c.kind === "credito")
     .reduce((a, b) => a + (b.creditLimit ?? 0), 0);
+
+  const payers = useMemo(() => {
+    const list = Array.from(
+      new Set(allTransactions.filter((t) => t.cardId && t.payer).map((t) => t.payer!))
+    );
+    list.sort();
+    return list;
+  }, [allTransactions]);
+
+  const payerTransactions = useMemo(() => {
+    if (!selectedPayer) return [];
+    return allTransactions
+      .filter((t) => t.cardId && t.payer === selectedPayer)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [allTransactions, selectedPayer]);
 
   return (
     <>
@@ -218,6 +235,72 @@ function CardsList() {
                   );
                 })}
               </div>
+            </section>
+          )}
+
+          {payers.length > 0 && (
+            <section className="space-y-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-sm">
+                <h2 className="font-title-lg text-title-lg text-on-surface">Pagamentos por Responsável</h2>
+                <select
+                  value={selectedPayer}
+                  onChange={(e) => setSelectedPayer(e.target.value)}
+                  className="h-10 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary text-on-surface font-body-md"
+                >
+                  <option value="">Selecione um responsável</option>
+                  {payers.map((p) => (
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedPayer && (
+                <div className="bg-surface-container-lowest rounded-xl border border-outline-variant card-shadow divide-y divide-outline-variant/60">
+                  {payerTransactions.length === 0 ? (
+                    <div className="p-md text-center text-on-surface-variant font-body-md">
+                      Nenhuma transação encontrada.
+                    </div>
+                  ) : (
+                    payerTransactions.map((t) => {
+                      const card = cardById(t.cardId!);
+                      const cat = categoryById(t.categoryId);
+                      return (
+                        <div key={t.id} className="p-md flex items-start gap-md">
+                          <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+                            <span className="material-symbols-outlined">{cat?.icon ?? "receipt"}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-body-lg text-body-lg text-on-surface break-words">
+                              {t.description}
+                            </p>
+                            <p className="font-body-sm text-body-sm text-on-surface-variant">
+                              {formatDateShort(t.date)} · {card?.name ?? "Cartão"}
+                              {t.installments ? ` · Parcela ${t.installmentNo}/${t.installments}` : ""}
+                            </p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="font-numeric-data text-numeric-data text-on-surface">
+                              {formatBRL(Math.abs(t.amount))}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                  {payerTransactions.length > 0 && (
+                    <div className="p-md bg-surface-container-low flex justify-between items-center rounded-b-xl border-t border-outline-variant">
+                      <span className="font-title-md text-title-md text-on-surface">Total</span>
+                      <span className="font-numeric-data text-numeric-data text-primary">
+                        {formatBRL(
+                          payerTransactions.reduce((acc, t) => acc + Math.abs(t.amount), 0)
+                        )}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
             </section>
           )}
         </div>
