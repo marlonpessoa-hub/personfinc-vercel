@@ -15,7 +15,7 @@ export function CardPurchaseDialog({
   purchase?: CardPurchase;
   onClose: () => void;
 }) {
-  const { cards, categories, addCardPurchase, updateCardPurchase } = useStore();
+  const { cards, categories, addCardPurchase, updateCardPurchase, payers } = useStore();
   const expenseCats = categories.filter((c) => c.kind === "despesa");
   const [mounted, setMounted] = useState(false);
 
@@ -38,7 +38,11 @@ export function CardPurchaseDialog({
   const [date, setDate] = useState(
     purchase?.date ?? new Date().toISOString().slice(0, 10),
   );
-  const [payer, setPayer] = useState(purchase?.payer ?? "");
+  const initialPayer = purchase?.payer ?? "";
+  const [payer, setPayer] = useState(initialPayer);
+  const [isNewPayer, setIsNewPayer] = useState(
+    payers.length === 0 || (initialPayer !== "" && !payers.includes(initialPayer))
+  );
   const [categoryId, setCategoryId] = useState(
     purchase?.categoryId || expenseCats[0]?.id || "",
   );
@@ -191,12 +195,49 @@ export function CardPurchaseDialog({
               />
             </Field>
             <Field label="Responsável">
-              <input
-                value={payer}
-                onChange={(e) => setPayer(e.target.value)}
-                placeholder="Ex: Marlon"
-                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
-              />
+              {isNewPayer ? (
+                <div className="flex gap-2">
+                  <input
+                    value={payer}
+                    onChange={(e) => setPayer(e.target.value)}
+                    placeholder="Ex: Nome da pessoa"
+                    className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
+                  />
+                  {payers.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsNewPayer(false);
+                        setPayer("");
+                      }}
+                      className="px-3 h-12 rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container flex items-center justify-center shrink-0"
+                    >
+                      <span className="material-symbols-outlined !text-[20px]">close</span>
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <select
+                  value={payer}
+                  onChange={(e) => {
+                    if (e.target.value === "__NEW__") {
+                      setIsNewPayer(true);
+                      setPayer("");
+                    } else {
+                      setPayer(e.target.value);
+                    }
+                  }}
+                  className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
+                >
+                  <option value="">Selecione...</option>
+                  {payers.map((p) => (
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
+                  ))}
+                  <option value="__NEW__">+ Adicionar...</option>
+                </select>
+              )}
             </Field>
           </div>
 

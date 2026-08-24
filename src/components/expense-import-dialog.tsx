@@ -28,7 +28,7 @@ const isPdf = (f: File) => /\.pdf$/i.test(f.name) || f.type === "application/pdf
 const toMonth = (iso: string, monthKey: string) => dateInMonth(monthKey, Number(iso.slice(8, 10)));
 
 export function ExpenseImportDialog({ onClose }: { onClose: () => void }) {
-  const { month, categories, addTransactions, addCardPurchase, cards } = useStore();
+  const { month, categories, addTransactions, addCardPurchase, cards, payers } = useStore();
   const extract = useServerFn(extractExpensesFromImages);
 
   const creditCards = useMemo(() => cards.filter((c) => c.kind === "credito"), [cards]);
@@ -373,6 +373,7 @@ export function ExpenseImportDialog({ onClose }: { onClose: () => void }) {
                 <input
                   aria-label="Aplicar responsável às selecionadas"
                   placeholder="Responsável (todas)"
+                  list="payers-list"
                   value={bulkPayer}
                   onChange={(e) => {
                     const v = e.target.value;
@@ -548,6 +549,7 @@ export function ExpenseImportDialog({ onClose }: { onClose: () => void }) {
                         <input
                           placeholder="Responsável (opcional)"
                           aria-label="Responsável"
+                          list="payers-list"
                           value={d.payer}
                           onChange={(e) => update(d.key, { payer: e.target.value })}
                           className={inputCls}
@@ -582,6 +584,12 @@ export function ExpenseImportDialog({ onClose }: { onClose: () => void }) {
             }}
           />
         </div>
+
+        <datalist id="payers-list">
+          {payers.map((p) => (
+            <option key={p} value={p} />
+          ))}
+        </datalist>
 
         <div className="p-md border-t border-outline-variant flex items-center gap-sm">
           <span className="font-body-sm text-body-sm text-on-surface-variant flex-1">

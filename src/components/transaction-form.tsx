@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AppShell } from "./app-shell";
 import type { Category, PaymentCard, TxKind } from "../lib/mock-data";
+import { useStore } from "../lib/store";
 
 type Initial = {
   description: string;
@@ -38,6 +39,7 @@ export function TransactionForm({
   onCancel: () => void;
   onDelete?: () => void;
 }) {
+  const { payers } = useStore();
   const [description, setDescription] = useState(initial?.description ?? "");
   const [amount, setAmount] = useState(initial?.amount ? initial.amount.toString() : "");
   const [categoryId, setCategoryId] = useState(initial?.categoryId || categories[0]?.id || "");
@@ -45,7 +47,13 @@ export function TransactionForm({
   const [note, setNote] = useState(initial?.note ?? "");
   const [paid, setPaid] = useState(initial?.paid ?? false);
   const [cardId, setCardId] = useState(initial?.cardId ?? "");
-  const [payer, setPayer] = useState(initial?.payer ?? "");
+  
+  const initialPayer = initial?.payer ?? "";
+  const [payer, setPayer] = useState(initialPayer);
+  // Se o responsável inicial não estiver na lista (e não for vazio) ou não tiver lista, abrimos campo texto
+  const [isNewPayer, setIsNewPayer] = useState(
+    payers.length === 0 || (initialPayer !== "" && !payers.includes(initialPayer))
+  );
 
   return (
     <AppShell title={title}>
@@ -167,12 +175,49 @@ export function TransactionForm({
 
           {kind === "despesa" && (
             <Field label="Responsável pela compra (opcional)">
-              <input
-                value={payer}
-                onChange={(e) => setPayer(e.target.value)}
-                placeholder="Ex: Marlon"
-                className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
-              />
+              {isNewPayer ? (
+                <div className="flex gap-2">
+                  <input
+                    value={payer}
+                    onChange={(e) => setPayer(e.target.value)}
+                    placeholder="Ex: Nome da pessoa"
+                    className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
+                  />
+                  {payers.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsNewPayer(false);
+                        setPayer("");
+                      }}
+                      className="px-4 h-12 rounded-lg border border-outline text-on-surface-variant hover:bg-surface-container"
+                    >
+                      <span className="material-symbols-outlined">close</span>
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <select
+                  value={payer}
+                  onChange={(e) => {
+                    if (e.target.value === "__NEW__") {
+                      setIsNewPayer(true);
+                      setPayer("");
+                    } else {
+                      setPayer(e.target.value);
+                    }
+                  }}
+                  className="w-full h-12 rounded-lg border border-outline bg-surface-container-lowest px-md outline-none focus:border-primary"
+                >
+                  <option value="">Selecione ou deixe em branco...</option>
+                  {payers.map((p) => (
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
+                  ))}
+                  <option value="__NEW__">+ Adicionar nova pessoa...</option>
+                </select>
+              )}
             </Field>
           )}
 

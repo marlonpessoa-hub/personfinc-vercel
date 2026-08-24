@@ -83,7 +83,9 @@ type Ctx = {
   isFixedLaunched: (fixedId: string, month: string) => boolean;
   categoryById: (id: string) => Category | undefined;
 
-};
+  /** Lista única de responsáveis extraída de todas as transações */
+  payers: string[];
+}
 
 const StoreCtx = createContext<Ctx | null>(null);
 
@@ -216,6 +218,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     [transactions, month],
   );
 
+  const payers = useMemo(() => {
+    const set = new Set<string>();
+    for (const t of transactions) {
+      if (t.payer?.trim()) {
+        set.add(t.payer.trim());
+      }
+    }
+    return Array.from(set).sort();
+  }, [transactions]);
+
   const cardPurchases = useMemo<CardPurchase[]>(() => {
     const map = new Map<string, CardPurchase>();
     for (const t of transactions) {
@@ -287,6 +299,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
       transactions: monthTransactions,
       allTransactions: transactions,
+      payers,
       categories,
       goals,
       fixedExpenses,
@@ -635,6 +648,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [
     transactions,
     monthTransactions,
+    payers,
     categories,
     goals,
     fixedExpenses,
